@@ -10,6 +10,7 @@ import logging
 # after_path = "./after/"
 # label_path = "./label/"
 
+
 async def color_inverse(image_data: UploadFile, label):
 
     # image_bytes = await image_data.read()  # 파일의 바이트 데이터를 읽습니다.
