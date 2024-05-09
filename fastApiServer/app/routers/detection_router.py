@@ -2,9 +2,11 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
 from typing import List
 from services.augmentation_service import color_inverse
+from services.model_service import model_2th_detection
+from services.estimate_service import calcPotholeDan, calcPotholeWidth
 from services.calculate_service import calculate_object_scale
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import StreamingResponse
+from dto.data_class import DetectionResponse
 import io
 from fastapi.responses import FileResponse
 import logging
@@ -25,23 +27,26 @@ async def detection_confirm(
     image_data: UploadFile = File(...),
     label_data: UploadFile = File(...)
 ):
-    image = await image_data.read()
+    origin_image = await image_data.read()
     label = await label_data.read()
-
     logging.info("파일 받음요")
-    # result = await color_inverse(image, label)
-    processed_image_path = await color_inverse(image, label)
-    if processed_image_path is None:
-        raise HTTPException(status_code=200, detail="이미지 컬러값 변환 처리에 실패하였습니다.") 
+
+    processed_image = await color_inverse(origin_image, label)
+    # 전처리에서 문제 발생한 경우
+    if processed_image is None:
+        raise HTTPException(status_code=401, detail="이미지 컬러값 변환 처리에 실패하였습니다.") 
+    logging.info("전처리 완료")
+
+    # 2차 탐지 실행
+    danger_status = model_2th_detection(processed_image)
+    logging.info(danger_status) 
+    logging.info("2차 탐지결과 확인 및 위험도 분석 완료")
+
+    return DetectionResponse(severity=danger_status)
     
-    # 2차 탐지에 성공했다면, 다음으로 빨간박스가 포함된 원본 이미지를 통해 위험도 분석 거침
-    # calculated_result = calculate_object_scale(image)
-
-    def iterfile():
-        with open(processed_image_path, mode="rb") as file_like:
-            yield from file_like
-
-    return StreamingResponse(iterfile(), media_type="image/jpeg")
+    # def iterfile():
+    #     with open(processed_image_path, mode="rb") as file_like:
+    #         yield from file_like
 
     # response = StreamingResponse(iterfile(), media_type="image/jpeg")
     # return {"message": "처리가 성공적으로 완료되었습니다.", "data": response}
