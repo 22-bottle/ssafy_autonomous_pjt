@@ -1,7 +1,7 @@
 # ⚠️POTLESS(포트리스)⚠️
 
 
-![weblogo__1_](/uploads/c7ab1fe4cb7bb34c5dd16bfd773c5808/weblogo__1_.png)
+![weblogo__1_](https://github.com/22-bottle/ssafy_autonomous_pjt/assets/101461544/494976ab-b50a-4064-92aa-a5604af8e37b)
 
 # 💡서비스 소개
 
@@ -25,7 +25,7 @@
 # 🖥️아키텍처
 
 
-![image__3___1_](/uploads/aaf857c772713e973c1b3ac21dac9f0b/image__3___1_.png)
+![image__3___1_](https://github.com/22-bottle/ssafy_autonomous_pjt/assets/101461544/09ce1d0d-cbad-4880-ac47-3cce53b11d48)
 
 # ⚙️기술스택
 
@@ -71,7 +71,7 @@
 # 📋ERD
 
 
-![Untitled__4_](/uploads/f8aaf4b4dbea2a4ac3e8aa0386cea068/Untitled__4_.png)
+![Untitled__4_](https://github.com/22-bottle/ssafy_autonomous_pjt/assets/101461544/44d09135-0665-48f5-b996-43b74a3af2e9)
 
 # 📕주요기능 및 데모영상
 
